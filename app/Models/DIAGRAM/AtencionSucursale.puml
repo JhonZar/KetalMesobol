@@ -1,0 +1,316 @@
+@startuml
+
+' Define los modelos
+class Role {
+  +int id
+  +string nombre
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void usuarios()
+}
+
+class Usuario {
+  +int id
+  +int id_rol
+  +string nombre
+  +string contra
+  +string estado
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void role()
+  +void atencionSucursales()
+  +void existencias()
+  +void historialEstados()
+  +void pedidos()
+}
+
+class AtencionSucursale {
+  +int id
+  +int id_usuario
+  +int id_sucursal
+  +Date fechaInicio
+  +Date fechaFin
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void sucursale()
+  +void usuario()
+}
+
+class Categoria {
+  +int id
+  +string nombre
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void materiales()
+}
+
+class Cliente {
+  +int id
+  +string nombre
+  +string ci
+  +string direccion
+  +string telefono
+  +string email
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void destinatarios()
+  +void pedidos()
+}
+
+class Colore {
+  +int id
+  +string codigo
+  +string nombre
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void imagenColores()
+  +void productos()
+}
+
+class Destinatario {
+  +int id
+  +int id_pedido
+  +int id_cliente
+  +int id_producto
+  +int cantidad
+  +Date fecha_Entrega
+  +int id_talla
+  +string obs
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void cliente()
+  +void pedido()
+  +void producto()
+  +void talla()
+  +void historialEstados()
+}
+
+class DetalleMateriale {
+  +int id
+  +int producto_id
+  +int material_id
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void materiale()
+  +void producto()
+}
+
+class DetalleVenta {
+  +int id
+  +int id_pedido
+  +int id_producto
+  +int cantidad
+  +float precion_unitario
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void pedido()
+  +void producto()
+}
+
+class Estado {
+  +int id
+  +string nombre
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void historialEstados()
+}
+
+class Existencia {
+  +int id
+  +int id_producto
+  +int id_usuario
+  +int id_sucursal
+  +Date fecha
+  +int cantidad
+  +string tipo_Transaccion
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void producto()
+  +void sucursale()
+  +void usuario()
+}
+
+class HistorialEstado {
+  +int id
+  +int id_estado
+  +int id_destinatario
+  +int id_usuarios
+  +Date fecha
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void destinatario()
+  +void estado()
+  +void usuario()
+}
+
+class ImagenColore {
+  +int id
+  +int color_id
+  +string url
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void colore()
+}
+
+class ImagenMateriale {
+  +int id
+  +int material_id
+  +string url
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void materiale()
+}
+
+class ImagenModelo {
+  +int id
+  +int modelo_id
+  +string url
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void modelo()
+}
+
+class Materiale {
+  +int id
+  +int id_cat
+  +string nombre
+  +float precio
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void categoria()
+  +void detalleMateriales()
+  +void imagenMateriales()
+}
+
+class Modelo {
+  +int id
+  +string nombre
+  +float precio
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void imagenModelos()
+  +void productos()
+}
+
+class Pedido {
+  +int id
+  +int id_cliente
+  +int id_usuario
+  +int id_sucursal
+  +float precioTotal
+  +float pagoACuenta
+  +float saldo
+  +Date fecha
+  +string estado
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void cliente()
+  +void sucursale()
+  +void usuario()
+  +void destinatarios()
+  +void detalleVentas()
+}
+
+class Producto {
+  +int id
+  +int id_talla
+  +int id_colores
+  +int id_modelo
+  +string nombre
+  +float precio_estimado
+  +float precio_vendedor
+  +int cantidad
+  +string descripcion
+  +string tipo
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void colore()
+  +void modelo()
+  +void talla()
+  +void sucursal()
+  +void destinatarios()
+  +void detalleMateriales()
+  +void detalleVentas()
+  +void existencias()
+}
+
+class Sucursale {
+  +int id
+  +string nombre
+  +string direccion
+  +string telefono
+  +string estado
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void atencionSucursales()
+  +void existencias()
+  +void pedidos()
+}
+
+class Talla {
+  +int id
+  +string talla
+  +string genero
+  +Timestamp created_at
+  +Timestamp updated_at
+  +void destinatarios()
+  +void productos()
+}
+
+' Define las relaciones
+Role "1" -- "0..*" Usuario : usuarios
+Usuario "1" -- "0..*" AtencionSucursale : atencionSucursales
+Usuario "1" -- "0..*" Existencia : existencias
+Usuario "1" -- "0..*" HistorialEstado : historialEstados
+Usuario "1" -- "0..*" Pedido : pedidos
+Usuario "1" -- "1" Role : role
+AtencionSucursale "1" -- "1" Sucursale : sucursale
+AtencionSucursale "1" -- "1" Usuario : usuario
+Categoria "1" -- "0..*" Materiale : materiales
+Cliente "1" -- "0..*" Destinatario : destinatarios
+Cliente "1" -- "0..*" Pedido : pedidos
+Colore "1" -- "0..*" ImagenColore : imagenColores
+Colore "1" -- "0..*" Producto : productos
+Destinatario "1" -- "1" Cliente : cliente
+Destinatario "1" -- "1" Pedido : pedido
+Destinatario "1" -- "1" Producto : producto
+Destinatario "1" -- "1" Talla : talla
+Destinatario "1" -- "0..*" HistorialEstado : historialEstados
+DetalleMateriale "1" -- "1" Materiale : materiale
+DetalleMateriale "1" -- "1" Producto : producto
+DetalleVenta "1" -- "1" Pedido : pedido
+DetalleVenta "1" -- "1" Producto : producto
+Estado "1" -- "0..*" HistorialEstado : historialEstados
+Existencia "1" -- "1" Producto : producto
+Existencia "1" -- "1" Sucursale : sucursale
+Existencia "1" -- "1" Usuario : usuario
+HistorialEstado "1" -- "1" Destinatario : destinatario
+HistorialEstado "1" -- "1" Estado : estado
+HistorialEstado "1" -- "1" Usuario : usuario
+ImagenColore "1" -- "1" Colore : colore
+ImagenMateriale "1" -- "1" Materiale : materiale
+ImagenModelo "1" -- "1" Modelo : modelo
+Materiale "1" -- "1" Categoria : categoria
+Materiale "1" -- "0..*" DetalleMateriale : detalleMateriales
+Materiale "1" -- "0..*" ImagenMateriale : imagenMateriales
+Modelo "1" -- "0..*" ImagenModelo : imagenModelos
+Modelo "1" -- "0..*" Producto : productos
+Pedido "1" -- "1" Cliente : cliente
+Pedido "1" -- "1" Sucursale : sucursale
+Pedido "1" -- "1" Usuario : usuario
+Pedido "1" -- "0..*" Destinatario : destinatarios
+Pedido "1" -- "0..*" DetalleVenta : detalleVentas
+Producto "1" -- "1" Colore : colore
+Producto "1" -- "1" Modelo : modelo
+Producto "1" -- "1" Talla : talla
+Producto "1" -- "0..*" Destinatario : destinatarios
+Producto "1" -- "0..*" DetalleMateriale : detalleMateriales
+Producto "1" -- "0..*" DetalleVenta : detalleVentas
+Producto "1" -- "0..*" Existencia : existencias
+Sucursale "1" -- "0..*" AtencionSucursale : atencionSucursales
+Sucursale "1" -- "0..*" Existencia : existencias
+Sucursale "1" -- "0..*" Pedido : pedidos
+Talla "1" -- "0..*" Destinatario : destinatarios
+Talla "1" -- "0..*" Producto : productos
+
+@enduml
