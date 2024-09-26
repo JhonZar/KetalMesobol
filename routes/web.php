@@ -146,3 +146,7 @@ Route::group(['middleware' => ['role:PRODUCCION']], function() {
 Route::group(['middleware' => ['role:VENTAS']], function() {
 
 });
+
+
+Route::get('/seguimiento-ci', [ClienteController::class, 'seguimientoCI'])->name('seguimiento.ci');
+Route::get('/ver-pedido', [ClienteController::class, 'buscarPorCI'])->name('ver-pedido');

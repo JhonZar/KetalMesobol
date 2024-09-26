@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use App\Http\Requests\ClienteRequest;
+use Illuminate\Http\Request;
 
 /**
  * Class ClienteController
@@ -79,5 +80,36 @@ class ClienteController extends Controller
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente deleted successfully');
+    }
+
+
+    public function seguimientoCI()
+    {
+        return view('seguimientoci');
+    }
+
+    public function buscarPorCI(Request $request)
+    {
+        $ci = $request->input('ci');
+
+        // Validar el CI
+        $request->validate([
+            'ci' => 'required|string|max:255',
+        ]);
+
+        // Buscar el cliente por CI
+        $cliente = Cliente::where('ci', $ci)->first();
+
+        if ($cliente) {
+            // Obtener los pedidos que no están en estado "TERMINADO"
+            $pedidos = $cliente->pedidos()->where('estado', '<>', 'TERMINADO')->get();
+
+            // Contar los estados de los pedidos
+            $estadoCounts = $pedidos->groupBy('estado')->map->count();
+
+            return view('cliente.ver-pedido', compact('cliente', 'pedidos', 'estadoCounts'));
+        } else {
+            return redirect()->route('seguimiento.ci')->withErrors(['ci' => 'Cliente no encontrado']);
+        }
     }
 }

@@ -8,8 +8,13 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
         @foreach ($productos as $producto)
             <div class="group relative overflow-hidden">
-                <img class="h-auto w-full max-h-[300px] object-cover object-center rounded-lg transition-transform duration-300 ease-in-out transform group-hover:scale-[1.05]"
-                     src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="{{ $producto->nombre }}">
+                @if($producto->modelo->imagenModelos->first())
+                    <img class="h-auto w-full max-h-[300px] object-cover object-center rounded-lg transition-transform duration-300 ease-in-out transform group-hover:scale-[1.05]"
+                         src="{{ $producto->modelo->imagenModelos->first()->url }}" alt="{{ $producto->nombre }}">
+                @else
+                    <img class="h-auto w-full max-h-[300px] object-cover object-center rounded-lg transition-transform duration-300 ease-in-out transform group-hover:scale-[1.05]"
+                         src="https://via.placeholder.com/300" alt="{{ $producto->nombre }}">
+                @endif
                 <div class="absolute bottom-0 left-0 w-full text-white text-center py-2 bg-black bg-opacity-50">
                     <span class="font-semibold">{{ $producto->nombre }}</span>
                     <span class="block">Disponible: {{ $producto->cantidad }}</span>

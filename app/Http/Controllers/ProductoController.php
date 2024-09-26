@@ -7,9 +7,11 @@ use App\Http\Requests\ProductoRequest;
 use App\Models\Categoria;
 use App\Models\Colore;
 use App\Models\DetalleMateriale;
+use App\Models\Existencia;
 use App\Models\Materiale;
 use App\Models\Modelo;
 use App\Models\Talla;
+use Illuminate\Http\Request;
 
 /**
  * Class ProductoController
@@ -108,13 +110,33 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductoRequest $request, Producto $producto)
-    {
-        $producto->update($request->validated());
+    public function update(Request $request, $id)
+{
+    $producto = Producto::findOrFail($id);
 
-        return redirect()->route('productos.index')
-            ->with('success', 'Producto updated successfully');
-    }
+    // Guardar la cantidad actual antes de la actualización
+    $cantidadAnterior = $producto->cantidad;
+
+    // Actualizar la cantidad del producto
+    $producto->update($request->all());
+
+    // Obtener el usuario desde la sesión
+    $idUsuario = $request->session()->get('user_id');
+
+    // Registrar la transacción en el modelo Existencia
+    Existencia::create([
+        'id_producto' => $producto->id,
+        'id_usuario' => $idUsuario,
+        'id_sucursal' => $producto->id_sucursal, // O el ID de la sucursal correspondiente
+        'fecha' => now(),
+        'cantidad' => $request->input('cantidad') - $cantidadAnterior, // Diferencia en cantidad
+        'tipo_Transaccion' => 'Incremento', // O cualquier otro tipo que definas
+    ]);
+
+    return redirect()->route('productos.index')
+        ->with('success', 'Producto actualizado exitosamente y la transacción registrada.');
+}
+
 
     public function destroy($id)
     {

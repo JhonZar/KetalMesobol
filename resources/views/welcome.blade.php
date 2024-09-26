@@ -19,6 +19,9 @@
                 <a href="#" class="text-gray-700 hover:text-red-500 transition-colors">Inicio</a>
                 <a href="#gallery" class="text-gray-700 hover:text-red-500 transition-colors">Productos</a>
                 <a href="#contact" class="text-gray-700 hover:text-red-500 transition-colors">Contacto</a>
+                <a href="{{ route('seguimiento.ci') }}" class="text-gray-700 hover:text-red-500 transition-colors">Ver
+                    mis pedidos</a>
+
             </nav>
             <div class="md:hidden">
                 <button id="menu-button" class="text-gray-700">
@@ -50,6 +53,7 @@
             <li><a href="{{ url('/') }}" class="text-gray-700 hover:text-red-500 transition-colors">Inicio</a></li>
             <li><a href="#gallery" class="text-gray-700 hover:text-red-500 transition-colors">Productos</a></li>
             <li><a href="#contact" class="text-gray-700 hover:text-red-500 transition-colors">Contacto</a></li>
+            <li><a href="{{ route('seguimiento.ci') }}" class="text-gray-700 hover:text-red-500 transition-colors">Ver mis pedidos</a></li>
             @if (Route::has('login'))
                 @auth
                     <li><a href="{{ url('/home') }}" class="hover:underline">Home</a></li>
@@ -97,12 +101,16 @@
             <h2 class="text-3xl font-bold mb-6 text-center">Galería de Productos</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @foreach ($productos as $producto)
-                    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md transform transition duration-300 hover:scale-105" data-aos="zoom-in">
+                    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md transform transition duration-300 hover:scale-105"
+                        data-aos="zoom-in">
                         <div class="overflow-hidden rounded-t-lg">
                             @if ($producto->modelo->imagenModelos->isNotEmpty())
-                                <img src="{{ $producto->modelo->imagenModelos->first()->url }}" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover transform transition duration-300 hover:scale-110">
+                                <img src="{{ $producto->modelo->imagenModelos->first()->url }}"
+                                    alt="{{ $producto->nombre }}"
+                                    class="w-full h-48 object-cover transform transition duration-300 hover:scale-110">
                             @else
-                                <img src="https://via.placeholder.com/150" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover transform transition duration-300 hover:scale-110">
+                                <img src="https://via.placeholder.com/150" alt="{{ $producto->nombre }}"
+                                    class="w-full h-48 object-cover transform transition duration-300 hover:scale-110">
                             @endif
                         </div>
                         <div class="p-4">
