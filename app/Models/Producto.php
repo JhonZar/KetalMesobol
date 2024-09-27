@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Model;
 class Producto extends Model
 {
 
-
+    use HasFactory;
     protected $perPage = 20;
 
     /**
@@ -123,5 +124,5 @@ class Producto extends Model
         // Devuelve el valor de la columna 'cantidad' que representa el stock actual.
         return $this->cantidad;
     }
-    
+
 }

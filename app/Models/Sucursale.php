@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,8 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Sucursale extends Model
 {
-    
 
+  use HasFactory;
     protected $perPage = 20;
 
     /**
@@ -42,7 +43,7 @@ class Sucursale extends Model
     {
         return $this->hasMany(\App\Models\AtencionSucursale::class, 'id', 'id_sucursal');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -50,7 +51,7 @@ class Sucursale extends Model
     {
         return $this->hasMany(\App\Models\Existencia::class, 'id', 'id_sucursal');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -58,6 +59,6 @@ class Sucursale extends Model
     {
         return $this->hasMany(\App\Models\Pedido::class,  'id_sucursal','id');
     }
-    
+
 
 }

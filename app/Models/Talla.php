@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Talla extends Model
 {
-    
+    use HasFactory;
 
     protected $perPage = 20;
 
@@ -39,7 +40,7 @@ class Talla extends Model
     {
         return $this->hasMany(\App\Models\Destinatario::class, 'id', 'id_talla');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -47,6 +48,6 @@ class Talla extends Model
     {
         return $this->hasMany(\App\Models\Producto::class, 'id', 'id_talla');
     }
-    
+
 
 }

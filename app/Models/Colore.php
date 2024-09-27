@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Colore extends Model
 {
-
+    use HasFactory;
 
     protected $perPage = 10;
 
@@ -39,7 +40,7 @@ class Colore extends Model
     {
         return $this->hasMany(\App\Models\ImagenColore::class, 'color_id', 'id');
     }
-    
+
 
 
     /**
